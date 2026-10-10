@@ -18,7 +18,7 @@ Make learning programs easy to find and easy to manage. Learners get one place t
 
 ## Navigation Flow
 Login -> Home -> Program Listing -> Program Details -> Enroll
-Home -> Profile
+Home -> Profile -> Feedback Form
 Admin: Login -> Admin Dashboard -> Add / Edit Program
 
 ## Tech Stack
