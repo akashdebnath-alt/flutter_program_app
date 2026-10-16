@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../models/program.dart';
 import '../theme/app_theme.dart';
+import 'feedback_screen.dart';
 
 class ProgramDetailsScreen extends StatelessWidget {
   final Program program;
@@ -59,7 +61,10 @@ class ProgramDetailsScreen extends StatelessWidget {
                         label: Text('${program.durationWeeks} weeks'),
                       ),
                       Chip(
-                        avatar: const Icon(Icons.calendar_today_outlined, size: 18),
+                        avatar: const Icon(
+                          Icons.calendar_today_outlined,
+                          size: 18,
+                        ),
                         label: Text('Starts ${program.startDate}'),
                       ),
                     ],
@@ -71,7 +76,10 @@ class ProgramDetailsScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 6),
-                  Text(program.description, style: const TextStyle(height: 1.4)),
+                  Text(
+                    program.description,
+                    style: const TextStyle(height: 1.4),
+                  ),
                   const SizedBox(height: 20),
 
                   _InfoRow(
@@ -112,9 +120,11 @@ class ProgramDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   OutlinedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Feedback form coming soon'),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              FeedbackScreen(program: program),
                         ),
                       );
                     },
