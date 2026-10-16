@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/sample_programs.dart';
 import '../theme/app_theme.dart';
+import 'program_details_screen.dart';
 
 class ProgramListingScreen extends StatelessWidget {
   const ProgramListingScreen({super.key});
@@ -58,9 +59,10 @@ class ProgramListingScreen extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Details coming next: ${program.title}'),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProgramDetailsScreen(program: program),
                           ),
                         );
                       },
