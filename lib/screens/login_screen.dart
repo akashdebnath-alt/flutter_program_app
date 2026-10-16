@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import 'home_screen.dart';
+import 'host_home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+enum UserRole { student, host }
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  UserRole _role = UserRole.student;
+
+  void _login() {
+    final Widget next =
+        _role == UserRole.student ? const HomeScreen() : const HostHomeScreen();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => next),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isStudent = _role == UserRole.student;
+
     return Scaffold(
       body: Container(
-        // Full-screen background image, darkened so the text stays readable
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background.png.jpg'),
@@ -25,7 +46,6 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Logo
                     Center(
                       child: Image.asset(
                         'assets/images/logo.png',
@@ -34,8 +54,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // App name
                     const Text(
                       'CURIOUS',
                       textAlign: TextAlign.center,
@@ -47,16 +65,43 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-
-                    // Tagline
                     const Text(
                       'Stay curious. Keep growing.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white70),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 28),
 
-                    // Email field
+                    // Role selector
+                    SegmentedButton<UserRole>(
+                      showSelectedIcon: false,
+                      style: SegmentedButton.styleFrom(
+                        backgroundColor: Colors.white24,
+                        foregroundColor: Colors.white,
+                        selectedBackgroundColor: AppColors.secondary,
+                        selectedForegroundColor: Colors.black87,
+                      ),
+                      segments: const [
+                        ButtonSegment(
+                          value: UserRole.student,
+                          label: Text('Student / Intern'),
+                          icon: Icon(Icons.school_outlined),
+                        ),
+                        ButtonSegment(
+                          value: UserRole.host,
+                          label: Text('Host'),
+                          icon: Icon(Icons.event_outlined),
+                        ),
+                      ],
+                      selected: {_role},
+                      onSelectionChanged: (selection) {
+                        setState(() {
+                          _role = selection.first;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
                     const TextField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
@@ -65,8 +110,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Password field
                     const TextField(
                       obscureText: true,
                       decoration: InputDecoration(
@@ -75,21 +118,19 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // Login button (navigation to Home comes next)
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Login'),
+                      onPressed: _login,
+                      child: Text(isStudent ? 'Login as Student' : 'Login as Host'),
                     ),
                     const SizedBox(height: 12),
-
-                    // Sign up link
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.secondary,
                       ),
                       onPressed: () {},
-                      child: const Text('New user? Sign up'),
+                      child: Text(isStudent
+                          ? 'New student? Sign up'
+                          : 'New host? Sign up'),
                     ),
                   ],
                 ),
