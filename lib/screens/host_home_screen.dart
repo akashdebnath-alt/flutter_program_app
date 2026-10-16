@@ -12,36 +12,36 @@ class HostHomeScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          Text(
-            'Welcome, Host',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Container(
+        // Dashboard background image, darkened so the white text stays readable
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/deshbord.jpg'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
           ),
-          SizedBox(height: 16),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('Create a program'),
-              subtitle: Text('Add a new program for learners'),
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: const [
+            Text(
+              'Welcome, Host',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.menu_book_outlined),
-              title: Text('My programs'),
-              subtitle: Text('Edit or remove your programs'),
+            SizedBox(height: 16),
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.add_circle_outline),
+                title: Text('Create a program'),
+                subtitle: Text('Add a new program for learners'),
+              ),
             ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.groups_outlined),
-              title: Text('Participants and feedback'),
-              subtitle: Text('See who joined and what they said'),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
