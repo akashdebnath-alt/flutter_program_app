@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import 'program_listing_screen.dart';
 
 const _sectionStyle = TextStyle(
   fontSize: 18,
@@ -29,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         // Dashboard background image, darkened so the white text stays readable
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/deshbord.jpg'),
+            image: AssetImage('assets/images/deshboard.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
           ),
@@ -97,6 +98,16 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProgramListingScreen(),
+              ),
+            );
+          }
+        },
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.black45,

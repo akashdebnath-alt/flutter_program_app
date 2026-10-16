@@ -16,7 +16,7 @@ class HostHomeScreen extends StatelessWidget {
         // Dashboard background image, darkened so the white text stays readable
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/deshbord.jpg'),
+            image: AssetImage('assets/images/deshboard.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
           ),
