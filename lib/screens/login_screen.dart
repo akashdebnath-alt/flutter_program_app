@@ -65,10 +65,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Stay curious. Keep growing.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white70),
+                  AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Text(
+                        isStudent
+                            ? 'Stay curious. Keep growing.'
+                            : 'Inspire minds. Build programs that matter.',
+                        key: ValueKey(isStudent),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
                     ),
                     const SizedBox(height: 28),
 
