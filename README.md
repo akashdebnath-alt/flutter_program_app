@@ -124,34 +124,7 @@ flutter_program_app/
 └── README.md
 ```
 
-## Getting Started
 
-### Prerequisites
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) (stable channel)
-- Google Chrome (or an Android emulator or phone)
-- Git
-
-### Run the app
-```bash
-git clone https://github.com/akashdebnath-alt/flutter_program_app.git
-cd flutter_program_app
-flutter pub get
-flutter run -d chrome
-```
-
-### Try it out
-1. On the Login screen, pick **Student / Intern** or **Host**.
-2. Enter any email and password (accounts are not checked yet) and tap the login button.
-3. As a student: open **Programs** from the bottom bar, tap **View Details**, then **Give feedback**.
-
-## Roadmap
-- [x] Week 1: project setup, proposal and wireframes
-- [x] Week 2: Login, Home, Program Listing, Program Details and Feedback screens with navigation
-- [ ] Named routes and working bottom navigation tabs
-- [ ] My programs and Profile screens
-- [ ] Register that saves the student's choice
-- [ ] Host tools: create, edit and remove programs
-- [ ] Real sign-up and login with a backend
 
 ## Author
 **Akash Debnath**
