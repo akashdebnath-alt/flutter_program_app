@@ -28,7 +28,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                 children: [
                   // Banner placeholder (from the wireframe)
                   Container(
-                    height: 160,
+                    height: 110,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       gradient: const LinearGradient(
