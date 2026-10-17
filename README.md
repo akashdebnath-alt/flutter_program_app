@@ -17,9 +17,7 @@ CURIOUS is a Flutter mobile app that helps **students and interns** discover lea
 8. [Design Choices](#design-choices)
 9. [Tech Stack](#tech-stack)
 10. [Project Structure](#project-structure)
-11. [Getting Started](#getting-started)
-12. [Roadmap](#roadmap)
-13. [Author](#author)
+12. [Author](#author)
 
 ---
 
