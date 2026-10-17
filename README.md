@@ -56,7 +56,7 @@ Make learning programs easy to find and easy to run. Students get one calm, simp
 
 | Login (Student) | Login (Host) | Home |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
+| <img src="docs/screenshots/Login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
 
 | Program Listing | Program Details | Feedback |
 |:---:|:---:|:---:|
