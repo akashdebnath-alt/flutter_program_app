@@ -16,4 +16,16 @@ class Program {
     required this.schedule,
     required this.eligibility,
   });
+
+  factory Program.fromJson(Map<String, dynamic> json) {
+    return Program(
+      title: json['title'] as String,
+      mentor: json['mentor'] as String,
+      durationWeeks: json['durationWeeks'] as int,
+      description: json['description'] as String,
+      startDate: json['startDate'] as String,
+      schedule: json['schedule'] as String,
+      eligibility: json['eligibility'] as String,
+    );
+  }
 }
