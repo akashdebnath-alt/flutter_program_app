@@ -57,7 +57,7 @@ Make learning programs easy to find and easy to run. Students get one calm, simp
 
 | Login (Student) | Login (Host) | Home |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/Login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
+| <img src="docs/screenshots/login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
 
 | Program Listing | Program Details | Feedback |
 |:---:|:---:|:---:|
@@ -68,7 +68,7 @@ Make learning programs easy to find and easy to run. Students get one calm, simp
 | <img src="docs/screenshots/host_dashboard.png" width="220" alt="Host dashboard"> |
 
 ## Demo Video
-Watch the 2 to 3 minute walkthrough of the navigation between the screens and the design choices:
+Watch the 3 to 4 minute walkthrough of the navigation between the screens and the design choices:
 
 **[Watch the demo video](https://drive.google.com/file/d/1-Ktaw-hel2rY_NZyjs4z3Sci6lbUUlql/view?usp=sharing)**
 
@@ -79,16 +79,18 @@ Watch the 2 to 3 minute walkthrough of the navigation between the screens and th
 - **Feedback form:** star rating, name, email and comments with validation and a success confirmation.
 - **Login validation:** the email must be valid and the password needs at least 6 characters.
 - **State:** `setState` and `FutureBuilder` keep the screens in sync with the data.
-- **Changelog:** see [`docs/Week3_Changelog_Akash_Debnath.pdf`](docs/Week3_Changelog_Akash_Debnath.pdf).
 
-| Loading | Error with Retry | Login validation |
+| Loading | Error with Retry |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/loading.png" width="200" alt="Loading spinner"> | <img src="docs/screenshots/error.png" width="200" alt="Error card with Retry"> | <img src="docs/screenshots/login_errors.png" width="200" alt="Login validation errors"> |
+| <img src="docs/screenshots/loading.png" width="200" alt="Loading spinner"> | <img src="docs/screenshots/error.png" width="200" alt="Error card with Retry"> |
 
 | Registration errors | Registration success | Feedback form |
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/register_errors.png" width="200" alt="Registration validation errors"> | <img src="docs/screenshots/register_success.png" width="200" alt="Registration success"> | <img src="docs/screenshots/feedback_form.png" width="200" alt="Feedback form"> |
 
+| Login validation |
+|:---:|
+| <img src="docs/screenshots/login_errors.png" width="200" alt="Login validation errors"> |
 
 ## Navigation Flow
 
