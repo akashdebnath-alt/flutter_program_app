@@ -79,7 +79,7 @@ Watch the 2 to 3 minute walkthrough of the navigation between the screens and th
 - **Feedback form:** star rating, name, email and comments with validation and a success confirmation.
 - **Login validation:** the email must be valid and the password needs at least 6 characters.
 - **State:** `setState` and `FutureBuilder` keep the screens in sync with the data.
-- **Changelog:** see [`docs/Week3_Changelog_Akash_Debnath.pdf`](docs/Week3_Changelog_Akash_Debnath.pdf).
+
 
 | Loading | Error with Retry | Registration errors |
 |:---:|:---:|:---:|
