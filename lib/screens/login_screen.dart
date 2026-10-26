@@ -14,15 +14,20 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   UserRole _role = UserRole.student;
+  final _formKey = GlobalKey<FormState>();
 
-  void _login() {
-    final Widget next =
-        _role == UserRole.student ? const HomeScreen() : const HostHomeScreen();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => next),
-    );
+void _login() {
+  if (!_formKey.currentState!.validate()) {
+    return; // errors are shown under the fields
   }
+
+  final Widget next =
+      _role == UserRole.student ? const HomeScreen() : const HostHomeScreen();
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => next),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -108,19 +113,45 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    const TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: Icon(Icons.lock_outline),
+                    Form(
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              if (!value.contains('@') || !value.contains('.')) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock_outline),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              if (value.length < 6) {
+                                return 'Password must have at least 6 characters';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 24),
