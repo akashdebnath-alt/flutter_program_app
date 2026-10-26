@@ -13,11 +13,14 @@ CURIOUS is a Flutter mobile app that helps **students and interns** discover lea
 4. [Features (Week 2 Prototype)](#features-week-2-prototype)
 5. [Screenshots](#screenshots)
 6. [Demo Video](#demo-video)
-7. [Navigation Flow](#navigation-flow)
-8. [Design Choices](#design-choices)
-9. [Tech Stack](#tech-stack)
-10. [Project Structure](#project-structure)
-12. [Author](#author)
+7. [Week 3 Changes](#week-3-changes)
+8. [Navigation Flow](#navigation-flow)
+9. [Design Choices](#design-choices)
+10. [Tech Stack](#tech-stack)
+11. [Project Structure](#project-structure)
+12. [Getting Started](#getting-started)
+13. [Roadmap](#roadmap)
+14. [Author](#author)
 
 ---
 
@@ -54,7 +57,7 @@ Make learning programs easy to find and easy to run. Students get one calm, simp
 
 | Login (Student) | Login (Host) | Home |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/Login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
+| <img src="docs/screenshots/login.png" width="220" alt="Login screen for students"> | <img src="docs/screenshots/login_host.png" width="220" alt="Login screen for hosts"> | <img src="docs/screenshots/home.png" width="220" alt="Home screen"> |
 
 | Program Listing | Program Details | Feedback |
 |:---:|:---:|:---:|
@@ -69,16 +72,41 @@ Watch the 2 to 3 minute walkthrough of the navigation between the screens and th
 
 **[Watch the demo video](https://drive.google.com/file/d/1wm4EjQ_mFJvoz9sFcPjjHsUksgi3PyzV/view?usp=sharing)**
 
+## Week 3 Changes
+- **Data from JSON:** Program Listing and Program Details now load programs from `assets/data/programs.json` through `ProgramService` and `Program.fromJson`, instead of hardcoded text.
+- **Loading and errors:** a spinner while data loads, an error card with a Retry button if loading fails, and a message for an empty list (`FutureBuilder`, `try/catch`).
+- **Registration form:** name, email and year of study (dropdown) with validation, a submit spinner, a success message and cleared fields.
+- **Feedback form:** star rating, name, email and comments with validation and a success confirmation.
+- **Login validation:** the email must be valid and the password needs at least 6 characters.
+- **State:** `setState` and `FutureBuilder` keep the screens in sync with the data.
+- **Changelog:** see [`docs/Week3_Changelog_Akash_Debnath.pdf`](docs/Week3_Changelog_Akash_Debnath.pdf).
+
+| Loading | Programs from JSON | Error with Retry |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/loading.png" width="200" alt="Loading spinner"> | <img src="docs/screenshots/programs_data.png" width="200" alt="Programs loaded from JSON"> | <img src="docs/screenshots/error.png" width="200" alt="Error card with Retry"> |
+
+| Registration errors | Registration success | Feedback form |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/register_errors.png" width="200" alt="Registration validation errors"> | <img src="docs/screenshots/register_success.png" width="200" alt="Registration success"> | <img src="docs/screenshots/feedback_form.png" width="200" alt="Feedback form"> |
+
+| Login validation |
+|:---:|
+| <img src="docs/screenshots/login_errors.png" width="200" alt="Login validation errors"> |
+
 ## Navigation Flow
 
 ```
-Student:  Login -> Home -> Program Listing -> Program Details -> Feedback
+Student:  Login -> Home -> Program Listing -> Program Details -> Registration / Feedback
 Host:     Login -> Host Dashboard
 ```
 
 - Every screen after Home has a back arrow, so users never get stuck.
 - Login uses `pushReplacement`, so the Back button does not return to the login form after signing in.
-- The tapped `Program` object is passed to the Details screen and on to the Feedback screen.
+- The tapped `Program` object is passed to the Details screen and on to the Registration and Feedback screens.
+
+![Screen flow with parent and child screens](docs/screenshots/screen_flow.png)
+
+Home is the **parent** screen. Program Listing is a **child of Home**, Program Details a **child of Listing**, and Registration and Feedback are **children of Details**. The Host Dashboard is the parent of the host screens.
 
 ## Design Choices
 - **Calm sunrise imagery** with a violet and gold feel supports the peaceful, motivating idea behind the name CURIOUS.
@@ -101,20 +129,29 @@ flutter_program_app/
 ├── lib/
 │   ├── main.dart                      # App entry point, theme and first screen
 │   ├── models/
-│   │   └── program.dart               # Program data class
+│   │   ├── program.dart               # Program data class with fromJson
+│   │   ├── registration.dart          # Registration data
+│   │   └── feedback_entry.dart        # Feedback data
+│   ├── services/
+│   │   └── program_service.dart       # Loads programs from JSON
 │   ├── data/
-│   │   └── sample_programs.dart       # Sample programs used by the screens
+│   │   ├── sample_programs.dart       # Original sample data
+│   │   ├── registrations_store.dart   # Temporary list of registrations
+│   │   └── feedback_store.dart        # Temporary list of feedback
 │   ├── screens/
 │   │   ├── login_screen.dart          # Login with role selector
 │   │   ├── home_screen.dart           # Student home
 │   │   ├── host_home_screen.dart      # Host dashboard
 │   │   ├── program_listing_screen.dart
 │   │   ├── program_details_screen.dart
+│   │   ├── registration_screen.dart
 │   │   └── feedback_screen.dart
 │   └── theme/
 │       └── app_theme.dart             # Colours and global styles
 ├── assets/
-│   └── images/                        # Background images and logo
+│   ├── images/                        # Background images and logo
+│   └── data/
+│       └── programs.json              # Program data loaded by the app
 ├── docs/
 │   └── screenshots/                   # Screenshots used in this README
 ├── android/  ios/  web/               # Platform folders created by Flutter
@@ -122,7 +159,35 @@ flutter_program_app/
 └── README.md
 ```
 
+## Getting Started
 
+### Prerequisites
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (stable channel)
+- Google Chrome (or an Android emulator or phone)
+- Git
+
+### Run the app
+```bash
+git clone https://github.com/akashdebnath-alt/flutter_program_app.git
+cd flutter_program_app
+flutter pub get
+flutter run -d chrome
+```
+
+### Try it out
+1. On the Login screen, pick **Student / Intern** or **Host**.
+2. Enter any email and password (accounts are not checked yet) and tap the login button.
+3. As a student: open **Programs** from the bottom bar, tap **View Details**, then **Give feedback**.
+
+## Roadmap
+- [x] Week 1: project setup, proposal and wireframes
+- [x] Week 2: Login, Home, Program Listing, Program Details and Feedback screens with navigation
+- [x] Week 3: data from JSON, loading and error states, registration and feedback forms with validation
+- [ ] Connect to a real or mock API with the `http` package
+- [ ] Named routes and working bottom navigation tabs
+- [ ] My programs and Profile screens
+- [ ] Host tools: create, edit and remove programs
+- [ ] Real sign-up and login with a backend
 
 ## Author
 **Akash Debnath**
