@@ -81,17 +81,14 @@ Watch the 2 to 3 minute walkthrough of the navigation between the screens and th
 - **State:** `setState` and `FutureBuilder` keep the screens in sync with the data.
 - **Changelog:** see [`docs/Week3_Changelog_Akash_Debnath.pdf`](docs/Week3_Changelog_Akash_Debnath.pdf).
 
-| Loading | Programs from JSON | Error with Retry |
+| Loading | Error with Retry | Login validation |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/loading.png" width="200" alt="Loading spinner"> | <img src="docs/screenshots/programs_data.png" width="200" alt="Programs loaded from JSON"> | <img src="docs/screenshots/error.png" width="200" alt="Error card with Retry"> |
+| <img src="docs/screenshots/loading.png" width="200" alt="Loading spinner"> | <img src="docs/screenshots/error.png" width="200" alt="Error card with Retry"> | <img src="docs/screenshots/login_errors.png" width="200" alt="Login validation errors"> |
 
 | Registration errors | Registration success | Feedback form |
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/register_errors.png" width="200" alt="Registration validation errors"> | <img src="docs/screenshots/register_success.png" width="200" alt="Registration success"> | <img src="docs/screenshots/feedback_form.png" width="200" alt="Feedback form"> |
 
-| Login validation |
-|:---:|
-| <img src="docs/screenshots/login_errors.png" width="200" alt="Login validation errors"> |
 
 ## Navigation Flow
 
