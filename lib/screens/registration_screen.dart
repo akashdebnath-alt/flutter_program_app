@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/registrations_store.dart';
 import '../models/program.dart';
 import '../models/registration.dart';
-import '../theme/app_theme.dart';
+
 
 class RegistrationScreen extends StatefulWidget {
   final Program program;
