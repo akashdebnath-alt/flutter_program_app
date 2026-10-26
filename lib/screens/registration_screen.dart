@@ -3,7 +3,6 @@ import '../data/registrations_store.dart';
 import '../models/program.dart';
 import '../models/registration.dart';
 
-
 class RegistrationScreen extends StatefulWidget {
   final Program program;
 
@@ -29,6 +28,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String? _year;
   bool _submitting = false;
   Registration? _lastRegistration;
+
+  // Errors stay hidden until the user taps Register once with a problem
+  AutovalidateMode _autoMode = AutovalidateMode.disabled;
 
   @override
   void dispose() {
@@ -60,8 +62,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Future<void> _submit() async {
     final form = _formKey.currentState!;
+
     if (!form.validate()) {
-      return; // errors are shown under the fields
+      // From now on, show errors while the user fixes the fields
+      setState(() => _autoMode = AutovalidateMode.onUserInteraction);
+      return;
     }
 
     setState(() => _submitting = true);
@@ -78,13 +83,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
     registrations.add(registration);
 
+    // Clear the fields and hide all errors
     form.reset();
-    _nameController.clear();
-    _emailController.clear();
 
     setState(() {
       _year = null;
       _submitting = false;
+      _autoMode = AutovalidateMode.disabled;
       _lastRegistration = registration;
     });
 
@@ -118,7 +123,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             const SizedBox(height: 24),
             Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              autovalidateMode: _autoMode,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
