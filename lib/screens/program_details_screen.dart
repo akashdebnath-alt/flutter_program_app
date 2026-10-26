@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/program.dart';
 import '../theme/app_theme.dart';
 import 'feedback_screen.dart';
+import 'registration_screen.dart';
 
 class ProgramDetailsScreen extends StatelessWidget {
   final Program program;
@@ -109,9 +110,10 @@ class ProgramDetailsScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Registered for ${program.title}'),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegistrationScreen(program: program),
                         ),
                       );
                     },
