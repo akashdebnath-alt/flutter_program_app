@@ -70,7 +70,7 @@ Make learning programs easy to find and easy to run. Students get one calm, simp
 ## Demo Video
 Watch the 2 to 3 minute walkthrough of the navigation between the screens and the design choices:
 
-**[Watch the demo video](https://drive.google.com/file/d/1wm4EjQ_mFJvoz9sFcPjjHsUksgi3PyzV/view?usp=sharing)**
+**[Watch the demo video](https://drive.google.com/file/d/1-Ktaw-hel2rY_NZyjs4z3Sci6lbUUlql/view?usp=sharing)**
 
 ## Week 3 Changes
 - **Data from JSON:** Program Listing and Program Details now load programs from `assets/data/programs.json` through `ProgramService` and `Program.fromJson`, instead of hardcoded text.
