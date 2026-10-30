@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'create_program_screen.dart';
 import 'login_screen.dart';
+import 'host_programs_screen.dart';
 
 // Use the same image name as in your home_screen.dart
 const _dashboardImage = 'assets/images/deshbord.jpg';
@@ -78,7 +79,14 @@ class HostHomeScreen extends StatelessWidget {
                 title: const Text('My programs'),
                 subtitle: const Text('Edit or remove your programs'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () => _comingSoon(context, 'My programs'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HostProgramsScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             Card(

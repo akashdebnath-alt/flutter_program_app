@@ -3,7 +3,10 @@ import '../data/program_repository.dart';
 import '../models/program.dart';
 
 class CreateProgramScreen extends StatefulWidget {
-  const CreateProgramScreen({super.key});
+  // When a program is given, the screen works as an edit form
+  final Program? program;
+
+  const CreateProgramScreen({super.key, this.program});
 
   @override
   State<CreateProgramScreen> createState() => _CreateProgramScreenState();
@@ -22,10 +25,27 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
   AutovalidateMode _autoMode = AutovalidateMode.disabled;
   bool _saving = false;
 
+  bool get _isEdit => widget.program != null;
+
   static const _months = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    final p = widget.program;
+    if (p != null) {
+      _titleController.text = p.title;
+      _mentorController.text = p.mentor;
+      _durationController.text = p.durationWeeks.toString();
+      _dateController.text = p.startDate;
+      _scheduleController.text = p.schedule;
+      _eligibilityController.text = p.eligibility;
+      _descriptionController.text = p.description;
+    }
+  }
 
   @override
   void dispose() {
@@ -103,21 +123,47 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
     await Future.delayed(const Duration(milliseconds: 1200));
     if (!mounted) return;
 
-    final program = Program(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: _titleController.text.trim(),
-      mentor: _mentorController.text.trim(),
-      durationWeeks: int.parse(_durationController.text.trim()),
-      description: _descriptionController.text.trim(),
-      startDate: _dateController.text.trim(),
-      schedule: _scheduleController.text.trim(),
-      eligibility: _eligibilityController.text.trim(),
-    );
+    final title = _titleController.text.trim();
+    final mentor = _mentorController.text.trim();
+    final weeks = int.parse(_durationController.text.trim());
+    final description = _descriptionController.text.trim();
+    final startDate = _dateController.text.trim();
+    final schedule = _scheduleController.text.trim();
+    final eligibility = _eligibilityController.text.trim();
 
-    ProgramRepository.instance.add(program);
+    if (_isEdit) {
+      ProgramRepository.instance.update(
+        widget.program!.copyWith(
+          title: title,
+          mentor: mentor,
+          durationWeeks: weeks,
+          description: description,
+          startDate: startDate,
+          schedule: schedule,
+          eligibility: eligibility,
+        ),
+      );
+    } else {
+      ProgramRepository.instance.add(
+        Program(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          title: title,
+          mentor: mentor,
+          durationWeeks: weeks,
+          description: description,
+          startDate: startDate,
+          schedule: schedule,
+          eligibility: eligibility,
+        ),
+      );
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('"${program.title}" created successfully!')),
+      SnackBar(
+        content: Text(_isEdit
+            ? '"$title" updated successfully!'
+            : '"$title" created successfully!'),
+      ),
     );
     Navigator.pop(context);
   }
@@ -126,9 +172,9 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Create a program',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          _isEdit ? 'Edit program' : 'Create a program',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SafeArea(
@@ -141,7 +187,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Learners will see this program in their list right away.',
+              'Learners will see the changes in their list right away.',
               style: TextStyle(color: Colors.black54),
             ),
             const SizedBox(height: 20),
@@ -234,7 +280,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('Create program'),
+                        : Text(_isEdit ? 'Save changes' : 'Create program'),
                   ),
                 ],
               ),

@@ -53,4 +53,10 @@ class ProgramRepository extends ChangeNotifier {
     _programs.removeWhere((p) => p.id == id);
     notifyListeners();
   }
+
+  void insertAt(int index, Program program) {
+    final position = index > _programs.length ? _programs.length : index;
+    _programs.insert(position, program);
+    notifyListeners();
+  } 
 }
