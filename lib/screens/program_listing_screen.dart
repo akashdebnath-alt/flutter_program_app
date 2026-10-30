@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/program.dart';
+import '../data/program_repository.dart';
 import '../services/program_service.dart';
 import '../theme/app_theme.dart';
 import 'program_details_screen.dart';
@@ -12,18 +12,12 @@ class ProgramListingScreen extends StatefulWidget {
 }
 
 class _ProgramListingScreenState extends State<ProgramListingScreen> {
-  late Future<List<Program>> _programsFuture;
+  final repo = ProgramRepository.instance;
 
   @override
   void initState() {
     super.initState();
-    _programsFuture = ProgramService().loadPrograms();
-  }
-
-  void _retry() {
-    setState(() {
-      _programsFuture = ProgramService().loadPrograms();
-    });
+    repo.load();
   }
 
   @override
@@ -34,12 +28,21 @@ class _ProgramListingScreenState extends State<ProgramListingScreen> {
           'Programs',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Reload',
+            icon: const Icon(Icons.refresh),
+            onPressed: () => repo.load(force: true),
+          ),
+        ],
       ),
-      body: FutureBuilder<List<Program>>(
-        future: _programsFuture,
-        builder: (context, snapshot) {
-          // 1. Loading
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: ListenableBuilder(
+        listenable: repo,
+        builder: (context, _) {
+          final programs = repo.programs;
+
+          // 1. First loading
+          if (programs.isEmpty && repo.error == null && !repo.loaded) {
             return const Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -52,8 +55,8 @@ class _ProgramListingScreenState extends State<ProgramListingScreen> {
             );
           }
 
-          // 2. Error
-          if (snapshot.hasError) {
+          // 2. Error with nothing to show
+          if (programs.isEmpty && repo.error != null) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -66,14 +69,14 @@ class _ProgramListingScreenState extends State<ProgramListingScreen> {
                         const Icon(Icons.error_outline,
                             size: 48, color: Colors.redAccent),
                         const SizedBox(height: 12),
-                        const Text(
-                          'Unable to load programs, please try again',
+                        Text(
+                          repo.error!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton.icon(
-                          onPressed: _retry,
+                          onPressed: () => repo.load(force: true),
                           icon: const Icon(Icons.refresh),
                           label: const Text('Retry'),
                         ),
@@ -85,15 +88,15 @@ class _ProgramListingScreenState extends State<ProgramListingScreen> {
             );
           }
 
-          // 3. Data loaded
-          final programs = snapshot.data ?? [];
-
+          // 3. Empty
           if (programs.isEmpty) {
             return const Center(child: Text('No programs available yet'));
           }
 
+          // 4. Data
           return Column(
             children: [
+              if (repo.loading) const LinearProgressIndicator(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Row(
@@ -101,6 +104,8 @@ class _ProgramListingScreenState extends State<ProgramListingScreen> {
                     const Icon(Icons.cloud_done_outlined, size: 18),
                     const SizedBox(width: 6),
                     Text('Data source: ${ProgramService.lastSource}'),
+                    const Spacer(),
+                    Text('${programs.length} programs'),
                   ],
                 ),
               ),
