@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
+import '../data/feedback_store.dart';
+import '../data/program_repository.dart';
+import '../data/registrations_store.dart';
 import 'create_program_screen.dart';
-import 'login_screen.dart';
 import 'host_programs_screen.dart';
+import 'login_screen.dart';
+import 'participants_feedback_screen.dart';
 
 // Use the same image name as in your home_screen.dart
 const _dashboardImage = 'assets/images/deshbord.jpg';
 
-class HostHomeScreen extends StatelessWidget {
+class HostHomeScreen extends StatefulWidget {
   const HostHomeScreen({super.key});
 
-  void _comingSoon(BuildContext context, String name) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$name is coming in the next lesson')),
+  @override
+  State<HostHomeScreen> createState() => _HostHomeScreenState();
+}
+
+class _HostHomeScreenState extends State<HostHomeScreen> {
+  final repo = ProgramRepository.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    repo.load();
+  }
+
+  // Opens a screen, and refreshes the counts when the user comes back
+  Future<void> _open(Widget screen) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen),
     );
+    if (mounted) setState(() {});
   }
 
   @override
@@ -45,60 +65,53 @@ class HostHomeScreen extends StatelessWidget {
             colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
           ),
         ),
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            const Text(
-              'Welcome, Host',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.add_circle_outline),
-                title: const Text('Create a program'),
-                subtitle: const Text('Add a new program for learners'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CreateProgramScreen(),
+        child: ListenableBuilder(
+          listenable: repo,
+          builder: (context, _) {
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                const Text(
+                  'Welcome, Host',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.add_circle_outline),
+                    title: const Text('Create a program'),
+                    subtitle: const Text('Add a new program for learners'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _open(const CreateProgramScreen()),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.menu_book_outlined),
+                    title: const Text('My programs'),
+                    subtitle: Text('${repo.programs.length} programs | edit or remove'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _open(const HostProgramsScreen()),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.groups_outlined),
+                    title: const Text('Participants and feedback'),
+                    subtitle: Text(
+                      '${registrations.length} registered | ${feedbackEntries.length} feedback',
                     ),
-                  );
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.menu_book_outlined),
-                title: const Text('My programs'),
-                subtitle: const Text('Edit or remove your programs'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HostProgramsScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.groups_outlined),
-                title: const Text('Participants and feedback'),
-                subtitle: const Text('See who joined and what they said'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => _comingSoon(context, 'Participants and feedback'),
-              ),
-            ),
-          ],
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _open(const ParticipantsFeedbackScreen()),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
